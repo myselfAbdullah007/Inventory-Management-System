@@ -39,7 +39,8 @@ public class AdminGUI extends JFrame {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showMessage("Prod");
+                Products productsGUI = new Products();
+                productsGUI.runn();
             }
         });
 
