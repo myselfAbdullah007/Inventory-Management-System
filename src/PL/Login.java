@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import java.awt.Color;
 
@@ -412,6 +411,8 @@ public class Login extends JFrame {
         button.setFont(UIManager.getFont("Button.font"));
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                AdminGUI adminGUI = new AdminGUI();
+                adminGUI.runn();
 
             }
         });
@@ -464,10 +465,4 @@ public class Login extends JFrame {
         getContentPane().add(mainPanel);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            Login login = new Login();
-            login.setVisible(true);
-        });
-    }
 }

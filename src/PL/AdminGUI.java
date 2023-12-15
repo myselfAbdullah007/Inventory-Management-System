@@ -69,7 +69,7 @@ public class AdminGUI extends JFrame {
         JOptionPane.showMessageDialog(this, message, "Button Clicked", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public static void main(String[] args) {
+    public void runn(){
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
