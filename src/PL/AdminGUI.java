@@ -54,7 +54,8 @@ public class AdminGUI extends JFrame {
         button3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showMessage("View Reports");
+                Reports reportGUI = new Reports();
+                reportGUI.runn();
             }
         });
 
