@@ -13,20 +13,19 @@ public class Logs extends JFrame {
     public Logs() {
         super("Logs");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(600, 400);
+        setSize(800, 400);
         setLocationRelativeTo(null);
 
         // Create components
         tableModel = new DefaultTableModel();
-        tableModel.addColumn("Product Name");
-        tableModel.addColumn("Price");
-        tableModel.addColumn("Quantity");
+        tableModel.addColumn("Log Type");
+        tableModel.addColumn("Performed By");
+        tableModel.addColumn("Date");
 
         dataTable = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(dataTable);
-
-        JButton addButton = new JButton("Add Product");
-        JButton removeButton = new JButton("Remove Product");
+        
+        JButton removeButton = new JButton("Delete Logs");
 
         // Set layout
         setLayout(new BorderLayout());
@@ -35,18 +34,11 @@ public class Logs extends JFrame {
         add(scrollPane, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.add(addButton);
         buttonPanel.add(removeButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
 
         // Add action listeners to the buttons
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addRow();
-            }
-        });
 
         removeButton.addActionListener(new ActionListener() {
             @Override
@@ -54,11 +46,6 @@ public class Logs extends JFrame {
                 removeRow();
             }
         });
-    }
-
-    private void addRow() {
-        Object[] rowData = {"Data 1", "Data 2", "Data 3"};
-        tableModel.addRow(rowData);
     }
 
     private void removeRow() {
@@ -74,7 +61,7 @@ public class Logs extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new Products().setVisible(true);
+                new Logs().setVisible(true);
             }
         });
     }

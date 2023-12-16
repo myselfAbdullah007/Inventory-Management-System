@@ -13,7 +13,7 @@ public class Products extends JFrame {
     public Products() {
         super("Products");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(600, 400);
+        setSize(800, 400);
         setLocationRelativeTo(null);
 
         // Create components

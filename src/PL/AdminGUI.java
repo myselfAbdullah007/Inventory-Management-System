@@ -11,7 +11,7 @@ public class AdminGUI extends JFrame {
     public AdminGUI() {
         super("Admin");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(420, 200);
+        setSize(800, 400);
         setLocationRelativeTo(null);
 
         // Create components
@@ -47,7 +47,8 @@ public class AdminGUI extends JFrame {
         button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showMessage("View Logs");
+                Logs logsGUI = new Logs();
+                logsGUI.runn();
             }
         });
 

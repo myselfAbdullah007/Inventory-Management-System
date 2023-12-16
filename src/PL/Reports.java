@@ -13,7 +13,7 @@ public class Reports extends JFrame {
     public Reports() {
         super("Reports");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(600, 400);
+        setSize(800, 400);
         setLocationRelativeTo(null);
 
         // Create components
@@ -61,7 +61,7 @@ public class Reports extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new Products().setVisible(true);
+                new Reports().setVisible(true);
             }
         });
     }
