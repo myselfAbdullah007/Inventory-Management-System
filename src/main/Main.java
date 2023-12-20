@@ -1,4 +1,4 @@
-package mainpkg;
+package main;
 
 //Import Libraries
 import javax.swing.SwingUtilities;
@@ -6,8 +6,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import com.formdev.flatlaf.FlatDarkLaf;
 
-//Import class in Package PL for accessing it BookPresenter
-import PL.Login;
+import pl.Login;
 
 public class Main {
 	public static void main(String[] args) {

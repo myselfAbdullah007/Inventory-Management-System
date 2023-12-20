@@ -1,4 +1,4 @@
-package PL;
+package pl;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 

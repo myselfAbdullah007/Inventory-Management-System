@@ -1,4 +1,4 @@
-package PL;
+package pl;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
