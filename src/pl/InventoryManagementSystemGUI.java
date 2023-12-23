@@ -73,7 +73,7 @@ public class InventoryManagementSystemGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Open Customer Module
-                openCustomerModule();
+				new Login().setVisible(true);
             }
         });
     }
@@ -81,11 +81,6 @@ public class InventoryManagementSystemGUI extends JFrame {
     private void openAdminModule() {
         // You can implement the Admin Module logic here
         JOptionPane.showMessageDialog(this, "Opening Admin Module");
-    }
-
-    private void openCustomerModule() {
-        // You can implement the Customer Module logic here
-        JOptionPane.showMessageDialog(this, "Opening Customer Module");
     }
 
     public static void main(String[] args) {

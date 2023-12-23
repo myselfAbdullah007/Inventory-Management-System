@@ -6,6 +6,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import com.formdev.flatlaf.FlatDarkLaf;
 
+import pl.InventoryManagementSystemGUI;
 import pl.Login;
 
 public class Main {
@@ -18,7 +19,8 @@ public class Main {
 		// pops up the Main BookPresenter Window
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new Login().setVisible(true);
+                new InventoryManagementSystemGUI().setVisible(true);
+
 			}
 		});
 	}
