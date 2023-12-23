@@ -8,10 +8,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+
+import dal.CustomerAuthenticationDAO;
+
 import java.awt.Color;
 
 public class Login extends JFrame {
@@ -24,7 +28,7 @@ public class Login extends JFrame {
 
     public Login() {
         setTitle("Inventory Management System");
-        setSize(470, 390);
+        setSize(800, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -411,8 +415,13 @@ public class Login extends JFrame {
         button.setFont(UIManager.getFont("Button.font"));
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                AdminGUI adminGUI = new AdminGUI();
-                adminGUI.runn();
+            	button.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        authenticateCustomer();
+                    }
+                });
+//                AdminGUI adminGUI = new AdminGUI();
+//                adminGUI.runn();
 
             }
         });
@@ -463,6 +472,24 @@ public class Login extends JFrame {
         inputPanel.add(label_97);
 
         getContentPane().add(mainPanel);
+    }
+    private void authenticateCustomer() {
+        // Get customer credentials from the text fields
+        String customerName = name.getText();
+        String password = new String(passwordField.getPassword());
+
+        // Authenticate customer
+        CustomerAuthenticationDAO authDAO = new CustomerAuthenticationDAO();
+        boolean isAuthenticated = authDAO.authenticateCustomer(customerName, password);
+
+        // Display result
+        if (isAuthenticated) {
+            JOptionPane.showMessageDialog(this, "Login successful");
+            new CustomerGUI().setVisible(true);
+            // Open the main application window or perform other actions
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid credentials. Customer not registered.");
+        }
     }
 
 }
