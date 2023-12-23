@@ -1,4 +1,4 @@
-package bl;
+package bll;
 
 public class LoginBO {
     

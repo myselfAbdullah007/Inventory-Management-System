@@ -4,9 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 public class AdminGUI extends JFrame {
-    private JLabel welcomeLabel;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JLabel welcomeLabel;
 
     public AdminGUI() {
         super("Admin");
@@ -34,14 +37,21 @@ public class AdminGUI extends JFrame {
         //buttonPanel.add(button4);
 
         add(buttonPanel, BorderLayout.SOUTH);
-
+   
         // Add action listeners to the buttons
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Products productsGUI = new Products();
-                productsGUI.runn();
-            }
+            	//Products productsGUI = new Products();
+                //productsGUI.runn();
+            	
+            	Products1 productsGUI1 = new Products1();
+    	        SwingUtilities.invokeLater(new Runnable() {
+    	            public void run() {
+    	            	productsGUI1.setVisible(true);
+    	            }
+    	        });
+    		}
         });
 
         button2.addActionListener(new ActionListener() {
@@ -68,7 +78,8 @@ public class AdminGUI extends JFrame {
         // });
     }
 
-    private void showMessage(String message) {
+    @SuppressWarnings("unused")
+	private void showMessage(String message) {
         JOptionPane.showMessageDialog(this, message, "Button Clicked", JOptionPane.INFORMATION_MESSAGE);
     }
 
