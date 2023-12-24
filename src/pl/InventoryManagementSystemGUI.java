@@ -65,7 +65,7 @@ public class InventoryManagementSystemGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Open Admin Module
-                openAdminModule();
+            	new AdminLogin().setVisible(true);
             }
         });
 

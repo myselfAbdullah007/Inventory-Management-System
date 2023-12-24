@@ -7,12 +7,11 @@ import java.util.List;
 
 import javax.swing.*;
 
-import bll.IBllFacade;
+import dal.ProductsDAO;
 
 
 /**
- * The BookPresenter is the main class Related to BOOK CRUD and also allows user
- * to see what actually inside a Book with the help of database
+ * 
  *
  * @author [Ehsan Tanvir]
  * @version 2.0
@@ -26,12 +25,12 @@ public class Products1 extends JFrame {
 	private Delete deleteScreen;
 	private CardLayout cardLayout;
 	private JPanel cardPanel;
-	private IBllFacade bl;
+	private ProductsDAO dal;
 
 	public Products1() {
-		bl = new IBllFacade();
+		dal = new ProductsDAO();
 
-		setTitle("ROOTS");
+		setTitle("Products");
 		 setSize(800, 400);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -93,22 +92,25 @@ public class Products1 extends JFrame {
 		add(buttonPanel, BorderLayout.SOUTH);
 	}
 
-	public IBllFacade getBl() {
-		return bl;
+	public ProductsDAO getBl() {
+		return dal;
 	}
 
 }
 
-// Class OF ADD Book Functionality
 class Add extends JPanel {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField nameField;
+	private JTextField quantityField;
+	private JTextField priceField;
+	private JTextField descriptionField;
+	private JTextField categoryField;
 	private JTextArea resultArea;
 
-	public Add(Products1 rootPresenter) {
+	public Add(Products1 Presenter) {
 
 		setLayout(new BorderLayout());
 
@@ -116,12 +118,27 @@ class Add extends JPanel {
 		inputPanel.setLayout(new FlowLayout((FlowLayout.LEADING)));
 
 		JButton addButton = new JButton("ENTER");
-		JLabel nameLabel = new JLabel("ROOT NAME");
-
+		JLabel nameLabel = new JLabel("PRODUCT NAME");
+		JLabel quantityLabel = new JLabel("QUANTITY");
+		JLabel priceLabel = new JLabel("PRICE");
+		JLabel descriptionLabel = new JLabel("DESCRIPTION");
+		JLabel categoryLabel = new JLabel("CATEGORY");
+		quantityField = new JTextField(20);
+		priceField = new JTextField(20);
+		descriptionField = new JTextField(20);
+		categoryField = new JTextField(20);
 		nameField = new JTextField(20);
 
 		inputPanel.add(nameLabel);
 		inputPanel.add(nameField);
+		inputPanel.add(quantityLabel);
+		inputPanel.add(quantityField);
+		inputPanel.add(priceLabel);
+		inputPanel.add(priceField);
+		inputPanel.add(descriptionLabel);
+		inputPanel.add(descriptionField);
+		inputPanel.add(categoryLabel);
+		inputPanel.add(categoryField);
 		inputPanel.add(addButton);
 
 		resultArea = new JTextArea(5, 10);
@@ -134,7 +151,11 @@ class Add extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String name = nameField.getText();
-					rootPresenter.getBl().addRoot(name);
+					Integer quantity = Integer.parseInt(quantityField.getText());
+					Float price =Float.parseFloat(priceField.getText());
+					String description = descriptionField.getText();
+					String category = categoryField.getText();
+					Presenter.getBl().addProducts(name,quantity,price,description,category);
 					resultArea.setText("ADDED");
 				} catch (NumberFormatException ex) {
 					resultArea.setText("Invalid input.");
@@ -152,8 +173,8 @@ class Read extends JPanel {
 	private Products1 rootPresenter;
 	private JTable table;
 
-	public Read(Products1 rootPresenter) {
-		this.rootPresenter = rootPresenter;
+	public Read(Products1 Presenter) {
+		this.rootPresenter = Presenter;
 		setLayout(new BorderLayout());
 
 		// Creating the JTable and adding it to the panel
@@ -176,7 +197,7 @@ class Read extends JPanel {
 
 	public void refreshTable() {
 		// Refresh the JTable with updated data from the BLL
-		List<Object[]> roots = rootPresenter.getBl().viewRoots();
+		List<Object[]> roots = rootPresenter.getBl().viewProducts();
 		Object[][] data = new Object[roots.size()][3];
 		for (int i = 0; i < roots.size(); i++) {
 			data[i] = roots.get(i);
@@ -193,15 +214,15 @@ class Read extends JPanel {
 		private JTextField nameField;
 		private JTextArea resultArea;
 
-		public Update(Products1 rootPresenter) {
+		public Update(Products1 Presenter) {
 			setLayout(new BorderLayout());
 
 			JPanel inputPanel = new JPanel();
 			inputPanel.setLayout(new FlowLayout((FlowLayout.RIGHT)));
 
 			JButton updateButton = new JButton("ENTER");
-			JLabel oldnameLabel = new JLabel("OLD ROOT NAME");
-			JLabel nameLabel = new JLabel("UPDATED ROOT NAME");
+			JLabel oldnameLabel = new JLabel("OLD PRODUCT NAME");
+			JLabel nameLabel = new JLabel("UPDATED PRODUCT NAME");
 
 			oldnameField = new JTextField(20);
 			nameField = new JTextField(20);
@@ -224,7 +245,7 @@ class Read extends JPanel {
 						String oldname = oldnameField.getText();
 						String name = nameField.getText();
 
-						boolean success = rootPresenter.getBl().updateRoot(oldname, name);
+						boolean success = Presenter.getBl().updateProducts(oldname, name);
 						if (success) {
 							resultArea.setText("UPDATED SUCCESSFULLY");
 						} else {
@@ -251,14 +272,14 @@ class Read extends JPanel {
 		private JTextField nameField;
 		private JTextArea resultArea;
 
-		public Delete(Products1 rootPresenter) {
+		public Delete(Products1 Presenter) {
 			setLayout(new BorderLayout());
 
 			JPanel inputPanel = new JPanel();
 			inputPanel.setLayout(new FlowLayout((FlowLayout.LEADING)));
 
 			JButton deleteButton = new JButton("ENTER");
-			JLabel nameLabel = new JLabel("ENTER ROOT NAME");
+			JLabel nameLabel = new JLabel("ENTER PRODUCT NAME");
 
 			nameField = new JTextField(20);
 
@@ -276,7 +297,7 @@ class Read extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					try {
 						String name = nameField.getText();
-						boolean success = rootPresenter.getBl().removeRoot(name);
+						boolean success = Presenter.getBl().removeProducts(name);
 						if (success) {
 							resultArea.setText("DELETED SUCCESSFULLY");
 						} else {
