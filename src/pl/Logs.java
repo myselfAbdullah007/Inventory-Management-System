@@ -5,6 +5,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Logs extends JFrame {
     private JTable dataTable;
@@ -18,14 +21,12 @@ public class Logs extends JFrame {
 
         // Create components
         tableModel = new DefaultTableModel();
+        tableModel.addColumn("Time");
         tableModel.addColumn("Log Type");
-        tableModel.addColumn("Performed By");
-        tableModel.addColumn("Date");
+        tableModel.addColumn("Description");
 
         dataTable = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(dataTable);
-        
-        JButton removeButton = new JButton("Delete Logs");
 
         // Set layout
         setLayout(new BorderLayout());
@@ -34,28 +35,25 @@ public class Logs extends JFrame {
         add(scrollPane, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.add(removeButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
-
-        // Add action listeners to the buttons
-
-        removeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                removeRow();
-            }
-        });
+        
+        loadDataFromTextFile();
+        
     }
-
-    private void removeRow() {
-        int selectedRow = dataTable.getSelectedRow();
-        if (selectedRow != -1) {
-            tableModel.removeRow(selectedRow);
-        } else {
-            JOptionPane.showMessageDialog(this, "Please select a row to remove.", "Row Removal", JOptionPane.WARNING_MESSAGE);
+    
+    private void loadDataFromTextFile() {
+        try (BufferedReader br = new BufferedReader(new FileReader("logs/applicationlogs"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+            	String[] data = line.split("\\s+", 3);
+                tableModel.addRow(data);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
+    
 
     public void runn() {
         SwingUtilities.invokeLater(new Runnable() {

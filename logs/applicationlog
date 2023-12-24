@@ -1,0 +1,3 @@
+12:07:32.299 [AWT-EventQueue-0] ERROR log.Log - Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
