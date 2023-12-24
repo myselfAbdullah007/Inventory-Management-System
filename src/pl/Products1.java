@@ -178,27 +178,21 @@ class Read extends JPanel {
 		setLayout(new BorderLayout());
 
 		// Creating the JTable and adding it to the panel
-		String[] columnNames = { "RootName" };
+		String[] columnNames = { "ProductName" , "Quantity" , "Price" ,"Description" , "Category"};
 		Object[][] data = new Object[0][];
 		table = new JTable(data, columnNames) {
 			/**
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
-
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				return false; // Make all cells non-editable
-			}
 		};
 		JScrollPane scrollPane = new JScrollPane(table);
 		add(scrollPane, BorderLayout.CENTER);
 	}
 
 	public void refreshTable() {
-		// Refresh the JTable with updated data from the BLL
 		List<Object[]> roots = rootPresenter.getBl().viewProducts();
-		Object[][] data = new Object[roots.size()][3];
+		Object[][] data = new Object[roots.size()][5];
 		for (int i = 0; i < roots.size(); i++) {
 			data[i] = roots.get(i);
 		}
@@ -212,6 +206,10 @@ class Read extends JPanel {
 		private static final long serialVersionUID = 1L;
 		private JTextField oldnameField;
 		private JTextField nameField;
+		private JTextField quantityField;
+		private JTextField priceField;
+		private JTextField descriptionField;
+		private JTextField categoryField;
 		private JTextArea resultArea;
 
 		public Update(Products1 Presenter) {
@@ -223,6 +221,15 @@ class Read extends JPanel {
 			JButton updateButton = new JButton("ENTER");
 			JLabel oldnameLabel = new JLabel("OLD PRODUCT NAME");
 			JLabel nameLabel = new JLabel("UPDATED PRODUCT NAME");
+			JLabel quantityLabel = new JLabel("UPDATED QUANTITY");
+			JLabel priceLabel = new JLabel("UPDATED PRICE");
+			JLabel descriptionLabel = new JLabel("UPDATED DESCRIPTION");
+			JLabel categoryLabel = new JLabel("UPDATED CATEGORY");
+			quantityField = new JTextField(20);
+			priceField = new JTextField(20);
+			descriptionField = new JTextField(20);
+			categoryField = new JTextField(20);
+			nameField = new JTextField(20);
 
 			oldnameField = new JTextField(20);
 			nameField = new JTextField(20);
@@ -231,6 +238,14 @@ class Read extends JPanel {
 			inputPanel.add(oldnameField);
 			inputPanel.add(nameLabel);
 			inputPanel.add(nameField);
+			inputPanel.add(quantityLabel);
+			inputPanel.add(quantityField);
+			inputPanel.add(priceLabel);
+			inputPanel.add(priceField);
+			inputPanel.add(descriptionLabel);
+			inputPanel.add(descriptionField);
+			inputPanel.add(categoryLabel);
+			inputPanel.add(categoryField);
 			inputPanel.add(updateButton);
 
 			resultArea = new JTextArea(5, 10);
@@ -244,8 +259,12 @@ class Read extends JPanel {
 					try {
 						String oldname = oldnameField.getText();
 						String name = nameField.getText();
+						Integer quantity = Integer.parseInt(quantityField.getText());
+						Float price =Float.parseFloat(priceField.getText());
+						String description = descriptionField.getText();
+						String category = categoryField.getText();
 
-						boolean success = Presenter.getBl().updateProducts(oldname, name);
+						boolean success = Presenter.getBl().updateProducts(oldname,name,quantity,price,description,category);
 						if (success) {
 							resultArea.setText("UPDATED SUCCESSFULLY");
 						} else {
@@ -263,7 +282,6 @@ class Read extends JPanel {
 		}
 	}
 
-// Class OF Delete Root Functionality
 	class Delete extends JPanel {
 		/**
 		 * 
@@ -297,7 +315,7 @@ class Read extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					try {
 						String name = nameField.getText();
-						boolean success = Presenter.getBl().removeProducts(name);
+						boolean success = Presenter.getBl().deleteProducts(name);
 						if (success) {
 							resultArea.setText("DELETED SUCCESSFULLY");
 						} else {

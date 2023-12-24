@@ -93,9 +93,9 @@ public class ProductsDAO {
 			ResultSet result = checkStatement.executeQuery();
 
 			if (result.next()) {
-				String deleteQuery = "DELETE FROM productss WHERE ProductName = ?";
+				String deleteQuery = "DELETE FROM products WHERE ProductName = ?";
 				PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
-				preparedStatement.setString(1, title);
+				preparedStatement.setString(1, name);
 				preparedStatement.executeUpdate();
 				preparedStatement.close();
 				deleted = true;
