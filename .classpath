@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="flatlaf-3.2.5.jar"/>
-	<classpathentry kind="lib" path="mysql-connector-j-8.0.33.jar"/>
-	<classpathentry kind="lib" path="D:/Semester 05/5th Semester Projects/Software Construction and Development/Phase 03/Jar Files/log4j-api-2.20.0.jar"/>
-	<classpathentry kind="lib" path="D:/Semester 05/5th Semester Projects/Software Construction and Development/Phase 03/Jar Files/log4j-core-2.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ehsan Tanvir/eclipse-workspace/Project DB/Inventory-Management-System/flatlaf-3.2.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ehsan Tanvir/eclipse-workspace/Project DB/Inventory-Management-System/log4j-api-2.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ehsan Tanvir/eclipse-workspace/Project DB/Inventory-Management-System/log4j-core-2.20.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ehsan Tanvir/eclipse-workspace/Project DB/Inventory-Management-System/mysql-connector-j-8.0.33.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
