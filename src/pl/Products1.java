@@ -6,13 +6,12 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
-import bll.IBllFacade;
-
+import dal.ProductsDAO;
 
 /**
- * The BookPresenter is the main class Related to BOOK CRUD and also allows user
- * to see what actually inside a Book with the help of database
+ * 
  *
  * @author [Ehsan Tanvir]
  * @version 2.0
@@ -26,13 +25,13 @@ public class Products1 extends JFrame {
 	private Delete deleteScreen;
 	private CardLayout cardLayout;
 	private JPanel cardPanel;
-	private IBllFacade bl;
+	private ProductsDAO dal;
 
 	public Products1() {
-		bl = new IBllFacade();
+		dal = new ProductsDAO();
 
-		setTitle("ROOTS");
-		 setSize(800, 400);
+		setTitle("Products");
+		setSize(800, 400);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 
@@ -93,35 +92,50 @@ public class Products1 extends JFrame {
 		add(buttonPanel, BorderLayout.SOUTH);
 	}
 
-	public IBllFacade getBl() {
-		return bl;
+	public ProductsDAO getBl() {
+		return dal;
 	}
 
 }
 
-// Class OF ADD Book Functionality
 class Add extends JPanel {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	private JTextField nameField;
+	private JTextField nameField, quantityField, priceField, descriptionField, categoryField;
 	private JTextArea resultArea;
 
-	public Add(Products1 rootPresenter) {
-
+	public Add(Products1 Presenter) {
 		setLayout(new BorderLayout());
 
 		JPanel inputPanel = new JPanel();
-		inputPanel.setLayout(new FlowLayout((FlowLayout.LEADING)));
+		inputPanel.setLayout(new GridLayout(6, 2, 5, 5));
 
 		JButton addButton = new JButton("ENTER");
-		JLabel nameLabel = new JLabel("ROOT NAME");
+		addButton.setBackground(new Color(50, 205, 50));
+		addButton.setForeground(Color.WHITE);
+
+		JLabel nameLabel = new JLabel("PRODUCT NAME");
+		JLabel quantityLabel = new JLabel("QUANTITY");
+		JLabel priceLabel = new JLabel("PRICE");
+		JLabel descriptionLabel = new JLabel("DESCRIPTION");
+		JLabel categoryLabel = new JLabel("CATEGORY");
 
 		nameField = new JTextField(20);
+		quantityField = new JTextField(20);
+		priceField = new JTextField(20);
+		descriptionField = new JTextField(20);
+		categoryField = new JTextField(20);
 
 		inputPanel.add(nameLabel);
 		inputPanel.add(nameField);
+		inputPanel.add(quantityLabel);
+		inputPanel.add(quantityField);
+		inputPanel.add(priceLabel);
+		inputPanel.add(priceField);
+		inputPanel.add(descriptionLabel);
+		inputPanel.add(descriptionField);
+		inputPanel.add(categoryLabel);
+		inputPanel.add(categoryField);
 		inputPanel.add(addButton);
 
 		resultArea = new JTextArea(5, 10);
@@ -134,7 +148,11 @@ class Add extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String name = nameField.getText();
-					rootPresenter.getBl().addRoot(name);
+					Integer quantity = Integer.parseInt(quantityField.getText());
+					Float price = Float.parseFloat(priceField.getText());
+					String description = descriptionField.getText();
+					String category = categoryField.getText();
+					Presenter.getBl().addProducts(name, quantity, price, description, category);
 					resultArea.setText("ADDED");
 				} catch (NumberFormatException ex) {
 					resultArea.setText("Invalid input.");
@@ -143,6 +161,7 @@ class Add extends JPanel {
 				}
 			}
 		});
+
 		add(resultArea, BorderLayout.NORTH);
 	}
 }
@@ -152,144 +171,147 @@ class Read extends JPanel {
 	private Products1 rootPresenter;
 	private JTable table;
 
-	public Read(Products1 rootPresenter) {
-		this.rootPresenter = rootPresenter;
+	public Read(Products1 Presenter) {
+		this.rootPresenter = Presenter;
 		setLayout(new BorderLayout());
 
-		// Creating the JTable and adding it to the panel
-		String[] columnNames = { "RootName" };
+		String[] columnNames = { "Product Name", "Quantity", "Price", "Description", "Category" };
 		Object[][] data = new Object[0][];
-		table = new JTable(data, columnNames) {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
+		table = new JTable(new DefaultTableModel(data, columnNames));
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setAutoCreateRowSorter(true);
 
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				return false; // Make all cells non-editable
-			}
-		};
 		JScrollPane scrollPane = new JScrollPane(table);
 		add(scrollPane, BorderLayout.CENTER);
 	}
 
 	public void refreshTable() {
-		// Refresh the JTable with updated data from the BLL
-		List<Object[]> roots = rootPresenter.getBl().viewRoots();
-		Object[][] data = new Object[roots.size()][3];
-		for (int i = 0; i < roots.size(); i++) {
-			data[i] = roots.get(i);
+		List<Object[]> products = rootPresenter.getBl().viewProducts();
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
+
+		for (Object[] product : products) {
+			model.addRow(product);
 		}
 	}
 }
-// Class OF Update Root Functionality
-	class Update extends JPanel {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		private JTextField oldnameField;
-		private JTextField nameField;
-		private JTextArea resultArea;
 
-		public Update(Products1 rootPresenter) {
-			setLayout(new BorderLayout());
+class Update extends JPanel {
+	private static final long serialVersionUID = 1L;
+	private JTextField oldnameField, nameField, quantityField, priceField, descriptionField, categoryField;
+	private JTextArea resultArea;
 
-			JPanel inputPanel = new JPanel();
-			inputPanel.setLayout(new FlowLayout((FlowLayout.RIGHT)));
+	public Update(Products1 Presenter) {
+		setLayout(new BorderLayout());
 
-			JButton updateButton = new JButton("ENTER");
-			JLabel oldnameLabel = new JLabel("OLD ROOT NAME");
-			JLabel nameLabel = new JLabel("UPDATED ROOT NAME");
+		JPanel inputPanel = new JPanel();
+		inputPanel.setLayout(new GridLayout(7, 2, 5, 5));
 
-			oldnameField = new JTextField(20);
-			nameField = new JTextField(20);
+		JButton updateButton = new JButton("UPDATE");
+		updateButton.setBackground(new Color(70, 130, 180)); 
+		updateButton.setForeground(Color.WHITE);
 
-			inputPanel.add(oldnameLabel);
-			inputPanel.add(oldnameField);
-			inputPanel.add(nameLabel);
-			inputPanel.add(nameField);
-			inputPanel.add(updateButton);
+		JLabel oldnameLabel = new JLabel("Old Product Name");
+		JLabel nameLabel = new JLabel("Updated Product Name");
+		JLabel quantityLabel = new JLabel("Updated Quantity");
+		JLabel priceLabel = new JLabel("Updated Price");
+		JLabel descriptionLabel = new JLabel("Updated Description");
+		JLabel categoryLabel = new JLabel("Updated Category");
 
-			resultArea = new JTextArea(5, 10);
-			resultArea.setEditable(false);
+		// Styling text fields
+		oldnameField = new JTextField(20);
+		nameField = new JTextField(20);
+		quantityField = new JTextField(20);
+		priceField = new JTextField(20);
+		descriptionField = new JTextField(20);
+		categoryField = new JTextField(20);
 
-			add(inputPanel, BorderLayout.CENTER);
+		inputPanel.add(oldnameLabel);
+		inputPanel.add(oldnameField);
+		inputPanel.add(nameLabel);
+		inputPanel.add(nameField);
+		inputPanel.add(quantityLabel);
+		inputPanel.add(quantityField);
+		inputPanel.add(priceLabel);
+		inputPanel.add(priceField);
+		inputPanel.add(descriptionLabel);
+		inputPanel.add(descriptionField);
+		inputPanel.add(categoryLabel);
+		inputPanel.add(categoryField);
+		inputPanel.add(updateButton);
 
-			updateButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					try {
-						String oldname = oldnameField.getText();
-						String name = nameField.getText();
+		resultArea = new JTextArea(5, 10);
+		resultArea.setEditable(false);
 
-						boolean success = rootPresenter.getBl().updateRoot(oldname, name);
-						if (success) {
-							resultArea.setText("UPDATED SUCCESSFULLY");
-						} else {
-							resultArea.setText("NOT UPDATED SUCCESSFULLY");
-						}
-					} catch (NumberFormatException ex) {
-						resultArea.setText("Invalid input.");
-					} catch (Exception ex) {
-						resultArea.setText("An error occurred.");
-					}
+		add(inputPanel, BorderLayout.CENTER);
+
+		updateButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String oldname = oldnameField.getText();
+					String name = nameField.getText();
+					Integer quantity = Integer.parseInt(quantityField.getText());
+					Float price = Float.parseFloat(priceField.getText());
+					String description = descriptionField.getText();
+					String category = categoryField.getText();
+
+					boolean success = Presenter.getBl().updateProducts(oldname, name, quantity, price, description,
+							category);
+					resultArea.setText(success ? "Updated Successfully" : "Not Updated Successfully");
+				} catch (NumberFormatException ex) {
+					resultArea.setText("Invalid input. Please check your input values.");
+				} catch (Exception ex) {
+					resultArea.setText("An error occurred. Please try again later.");
 				}
-			});
+			}
+		});
 
-			add(resultArea, BorderLayout.NORTH);
-		}
+		add(resultArea, BorderLayout.NORTH);
 	}
+}
 
-// Class OF Delete Root Functionality
-	class Delete extends JPanel {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		private JTextField nameField;
-		private JTextArea resultArea;
+class Delete extends JPanel {
+    private static final long serialVersionUID = 1L;
+    private JTextField nameField;
+    private JTextArea resultArea;
 
-		public Delete(Products1 rootPresenter) {
-			setLayout(new BorderLayout());
+    public Delete(Products1 Presenter) {
+        setLayout(new BorderLayout());
 
-			JPanel inputPanel = new JPanel();
-			inputPanel.setLayout(new FlowLayout((FlowLayout.LEADING)));
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new GridLayout(2, 2, 5, 5));
 
-			JButton deleteButton = new JButton("ENTER");
-			JLabel nameLabel = new JLabel("ENTER ROOT NAME");
+        JButton deleteButton = new JButton("DELETE");
+        deleteButton.setBackground(new Color(220, 20, 60));
+        deleteButton.setForeground(Color.WHITE);
 
-			nameField = new JTextField(20);
+        JLabel nameLabel = new JLabel("Product Name to Delete");
 
-			inputPanel.add(nameLabel);
-			inputPanel.add(nameField);
-			inputPanel.add(deleteButton);
+        nameField = new JTextField(20);
 
-			resultArea = new JTextArea(5, 10);
-			resultArea.setEditable(false);
+        inputPanel.add(nameLabel);
+        inputPanel.add(nameField);
+        inputPanel.add(deleteButton);
 
-			add(inputPanel, BorderLayout.CENTER);
+        resultArea = new JTextArea(5, 10);
+        resultArea.setEditable(false);
 
-			deleteButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					try {
-						String name = nameField.getText();
-						boolean success = rootPresenter.getBl().removeRoot(name);
-						if (success) {
-							resultArea.setText("DELETED SUCCESSFULLY");
-						} else {
-							resultArea.setText("NOT DELETED SUCCESSFULLY");
-						}
-					} catch (NumberFormatException ex) {
-						resultArea.setText("Invalid input.");
-					} catch (Exception ex) {
-						resultArea.setText("An error occurred.");
-					}
-				}
-			});
+        add(inputPanel, BorderLayout.CENTER);
 
-			add(resultArea, BorderLayout.NORTH);
-		}
-	}
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String name = nameField.getText();
+                    boolean success = Presenter.getBl().deleteProducts(name);
+                    resultArea.setText(success ? "Deleted Successfully" : "Not Deleted Successfully");
+                } catch (Exception ex) {
+                    resultArea.setText("An error occurred. Please try again later.");
+                }
+            }
+        });
+
+        add(resultArea, BorderLayout.NORTH);
+    }
+}

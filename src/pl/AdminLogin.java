@@ -90,30 +90,23 @@ public class AdminLogin extends JFrame {
         String password = new String(passwordField.getPassword());
 
         // Authenticate Admin
-        CustomerAuthenticationDAO authDAO = new CustomerAuthenticationDAO();
-        boolean isAuthenticated = authDAO.authenticateCustomer(customerID, password);
-
+        boolean isAuthenticated = aunthenticator(customerID, password);
         // Display result
         if (isAuthenticated) {
             resultLabel.setText("Admin is authenticated.");
+            new AdminGUI().setVisible(true);
             
         } else {
             resultLabel.setText("Invalid credentials. Admin not registered.");
         }
     }
-
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(new FlatDarkLaf());
-        } catch (UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
+    Boolean aunthenticator(String ID , String pass)
+    {
+    	Boolean x= false;
+        if (ID .equals("admin") && pass.equals("admin"))
+        {
+        	 x= true;
         }
-
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new AdminLogin().setVisible(true);
-            }
-        });
+    	return x;
     }
 }
