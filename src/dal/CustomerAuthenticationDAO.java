@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import log.Log;
+
 public class CustomerAuthenticationDAO {
 
     // Method to authenticate a customer based on provided credentials
@@ -33,6 +35,7 @@ public class CustomerAuthenticationDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            Log.LOGGER.error("Invalid Customer Credentials");
             throw new RuntimeException("Error authenticating customer");
         } finally {
             // Close resources
