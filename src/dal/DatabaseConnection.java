@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import log.Log;
+
 public class DatabaseConnection {
 
     // JDBC URL, username, and password of MySQL server
@@ -46,6 +48,7 @@ public class DatabaseConnection {
             return connection;
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+            Log.LOGGER.error(e.getMessage());
             throw new RuntimeException("Failed to connect to the database");
         }
     }
@@ -57,6 +60,7 @@ public class DatabaseConnection {
                 connection.close();
             }
         } catch (SQLException e) {
+        	Log.LOGGER.error(e.getMessage());
             e.printStackTrace();
         }
     }
