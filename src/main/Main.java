@@ -7,7 +7,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import com.formdev.flatlaf.FlatDarkLaf;
 
 import pl.InventoryManagementSystemGUI;
-import pl.Login;
 
 public class Main {
 	public static void main(String[] args) {

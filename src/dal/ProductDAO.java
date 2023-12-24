@@ -58,4 +58,20 @@ public class ProductDAO {
 
         return products;
     }
+    
+    public void addToCart(String productId, String customerName) {
+        DatabaseConnection dbInstance = DatabaseConnection.getInstance();
+
+        // Implement the logic to add the selected product to the cart in the database
+        // You may need to update the method signature based on your database schema and requirements
+        String addToCartQuery = "INSERT INTO cart (ProductID, CustomerID) VALUES (?, ?)";
+        try (Connection connection = dbInstance.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(addToCartQuery)) {
+            preparedStatement.setString(1, productId);
+            preparedStatement.setString(2, customerName);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception as needed
+        }
+    }
 }

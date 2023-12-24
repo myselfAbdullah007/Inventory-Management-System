@@ -485,7 +485,7 @@ public class Login extends JFrame {
         // Display result
         if (isAuthenticated) {
             JOptionPane.showMessageDialog(this, "Login successful");
-            new CustomerGUI().setVisible(true);
+            new CustomerGUI(customerName).setVisible(true);
             // Open the main application window or perform other actions
         } else {
             JOptionPane.showMessageDialog(this, "Invalid credentials. Customer not registered.");

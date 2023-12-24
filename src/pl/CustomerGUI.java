@@ -20,8 +20,10 @@ public class CustomerGUI extends JFrame {
             e.printStackTrace();
         }
     }
+    private String customerName;
 
-    public CustomerGUI() {
+    public CustomerGUI(String customerName) {
+    	this.customerName=customerName;
         // Set up the main frame
         setTitle("Customer Module");
         setSize(800, 400);
@@ -121,7 +123,7 @@ public class CustomerGUI extends JFrame {
 
     private void handleViewProductsAction() {
         // You can implement the logic for the View Products button action here
-        new CustomerProductGUI().setVisible(true);
+        new CustomerProductGUI(customerName).setVisible(true);
     }
 
     private void handleLogoutAction() {
@@ -131,12 +133,12 @@ public class CustomerGUI extends JFrame {
         dispose();
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new CustomerGUI().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                new CustomerGUI().setVisible(true);
+//            }
+//        });
+//    }
 }

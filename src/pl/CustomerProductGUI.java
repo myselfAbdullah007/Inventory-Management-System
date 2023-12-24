@@ -16,6 +16,7 @@ import java.util.Vector;
 public class CustomerProductGUI extends JFrame {
 	
     private ProductDAO productDAO;
+    private String customerName;
 
 
     static {
@@ -26,8 +27,8 @@ public class CustomerProductGUI extends JFrame {
         }
     }
 
-    public CustomerProductGUI() {
-    	
+    public CustomerProductGUI(String customerName) {
+    	this.customerName=customerName;
     	
     	
     	 // Initialize the ProductDAO
@@ -78,7 +79,6 @@ public class CustomerProductGUI extends JFrame {
             }
         });
     }
-
     private void handleAddToCartAction(JTable productTable) {
         int selectedRow = productTable.getSelectedRow();
 
@@ -89,7 +89,9 @@ public class CustomerProductGUI extends JFrame {
             String description = (String) productTable.getValueAt(selectedRow, 2);
             String price = (String) productTable.getValueAt(selectedRow, 3);
 
-            // You can implement the logic to add the selected product to the cart
+            // Add the selected product to the cart in the database
+            productDAO.addToCart(productId, customerName);
+
             JOptionPane.showMessageDialog(this, "Added to Cart:\n" +
                     "Product ID: " + productId + "\n" +
                     "Name: " + name + "\n" +
@@ -118,13 +120,13 @@ public class CustomerProductGUI extends JFrame {
 
         return new DefaultTableModel(data, columnNames);
     }
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new CustomerProductGUI().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                new CustomerProductGUI().setVisible(true);
+//            }
+//        });
+//    }
 }
 
