@@ -2,14 +2,21 @@ package pl;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 
+import DTO.Product;
+import dal.ProductDAO;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Vector;
 
 public class CustomerProductGUI extends JFrame {
+	
+    private ProductDAO productDAO;
+
 
     static {
         try {
@@ -20,6 +27,22 @@ public class CustomerProductGUI extends JFrame {
     }
 
     public CustomerProductGUI() {
+    	
+    	
+    	
+    	 // Initialize the ProductDAO
+        this.productDAO = new ProductDAO();
+
+        // Fetch products from the database
+        List<Product> products = productDAO.getAllProducts();
+
+        // Create table model with fetched data
+        DefaultTableModel tableModel = createTableModel(products);
+
+        // Create JTable with the model
+        JTable productTable = new JTable(tableModel);
+        
+        
         // Set up the main frame
         setTitle("Product Catalog");
         setSize(800, 400);
@@ -27,34 +50,11 @@ public class CustomerProductGUI extends JFrame {
         setLocationRelativeTo(null);
 
         // Create table data and column names
-        Vector<Vector<String>> data = new Vector<>();
         Vector<String> columnNames = new Vector<>();
         columnNames.add("Product ID");
         columnNames.add("Name");
         columnNames.add("Description");
         columnNames.add("Price");
-
-        // Sample data
-        Vector<String> row1 = new Vector<>();
-        row1.add("P001");
-        row1.add("Laptop");
-        row1.add("High-performance laptop");
-        row1.add("$1000.00");
-
-        Vector<String> row2 = new Vector<>();
-        row2.add("P002");
-        row2.add("Smartphone");
-        row2.add("Latest smartphone model");
-        row2.add("$500.00");
-
-        data.add(row1);
-        data.add(row2);
-
-        // Create table model
-        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
-
-        // Create JTable with the model
-        JTable productTable = new JTable(tableModel);
 
         // Create button to add product to cart
         JButton addToCartButton = new JButton("Add to Cart");
@@ -99,7 +99,25 @@ public class CustomerProductGUI extends JFrame {
             JOptionPane.showMessageDialog(this, "Please select a product to add to the cart.");
         }
     }
+    private DefaultTableModel createTableModel(List<Product> products) {
+        Vector<Vector<String>> data = new Vector<>();
+        Vector<String> columnNames = new Vector<>();
+        columnNames.add("Product ID");
+        columnNames.add("Name");
+        columnNames.add("Description");
+        columnNames.add("Price");
 
+        for (Product product : products) {
+            Vector<String> row = new Vector<>();
+            row.add(product.getProductId());
+            row.add(product.getName());
+            row.add(product.getDescription());
+            row.add(product.getPrice());
+            data.add(row);
+        }
+
+        return new DefaultTableModel(data, columnNames);
+    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
