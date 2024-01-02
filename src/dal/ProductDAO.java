@@ -36,9 +36,10 @@ public class ProductDAO {
                 String name = resultSet.getString("ProductName");
                 String description = resultSet.getString("Description");
                 String price = resultSet.getString("Price");
+                String quantity = resultSet.getString("Quantity");
 
                 // Create a Product object and add it to the list
-                Product product = new Product(productId, name, description, price);
+                Product product = new Product(productId, name, description, price,quantity);
                 products.add(product);
             }
 

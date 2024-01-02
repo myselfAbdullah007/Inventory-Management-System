@@ -1,1 +1,4 @@
-12:07:32.299 [AWT-EventQueue-0] ERROR log.Log - Communications link failure
+12:07:32.299 [AWT-EventQueue-0] ERROR log.Log - Communications link failure00:46:53.641 [main] ERROR log.Log - Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+00:47:24.284 [main] ERROR log.Log - Unknown database 'databaseproject'
