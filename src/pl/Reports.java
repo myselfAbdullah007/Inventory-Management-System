@@ -1,70 +1,64 @@
 package pl;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.IOException;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
-public class Reports extends JFrame {
-    private JTable dataTable;
-    private DefaultTableModel tableModel;
+public class Reports {
 
-    public Reports() {
-        super("Reports");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(800, 400);
-        setLocationRelativeTo(null);
-
-        // Create components
-        tableModel = new DefaultTableModel();
-        tableModel.addColumn("Report Name");
-        tableModel.addColumn("Date");
-
-        dataTable = new JTable(tableModel);
-        JScrollPane scrollPane = new JScrollPane(dataTable);
-
-        JButton removeButton = new JButton("Delete Reports");
-
-        // Set layout
-        setLayout(new BorderLayout());
-
-        // Add components to the frame
-        add(scrollPane, BorderLayout.CENTER);
-
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-
-        buttonPanel.add(removeButton);
-
-        add(buttonPanel, BorderLayout.SOUTH);
-
-        // Add action listeners to the buttons
-
-        removeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                removeRow();
-            }
-        });
-    }
-
-    private void removeRow() {
-        int selectedRow = dataTable.getSelectedRow();
-        if (selectedRow != -1) {
-            tableModel.removeRow(selectedRow);
-        } else {
-            JOptionPane.showMessageDialog(this, "Please select a row to remove.", "Row Removal", JOptionPane.WARNING_MESSAGE);
+    public static void main(String[] args) {
+        try {
+            createPdfWithTable("example.pdf");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    public void runn() {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new Reports().setVisible(true);
+    private static void createPdfWithTable(String filePath) throws IOException {
+        try (PDDocument document = new PDDocument()) {
+            PDPage page = new PDPage(PDRectangle.A4);
+            document.addPage(page);
+
+            try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
+                float margin = 50;
+                float yStart = page.getMediaBox().getHeight() - margin;
+                float tableWidth = page.getMediaBox().getWidth() - 2 * margin;
+                float yPosition = yStart;
+                float bottomMargin = 70;
+
+                drawTableHeader(contentStream, margin, yStart, tableWidth);
+                yPosition -= 15;
+
+                for (int i = 0; i < 10; i++) {
+                    drawTableRow(contentStream, margin, yPosition, tableWidth, "Product " + (i + 1), String.valueOf(i + 1));
+                    yPosition -= 15;
+                }
             }
-        });
+
+            document.save(filePath);
+        }
+    }
+
+    private static void drawTableHeader(PDPageContentStream contentStream, float margin, float yStart, float tableWidth) throws IOException {
+        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
+        contentStream.beginText();
+        contentStream.newLineAtOffset(margin, yStart);
+        contentStream.showText("Product");
+        contentStream.newLineAtOffset(tableWidth * 0.4f, 0);
+        contentStream.showText("Quantity");
+        contentStream.endText();
+    }
+
+    private static void drawTableRow(PDPageContentStream contentStream, float margin, float yPosition, float tableWidth, String product, String quantity) throws IOException {
+        contentStream.setFont(PDType1Font.HELVETICA, 12);
+        contentStream.beginText();
+        contentStream.newLineAtOffset(margin, yPosition);
+        contentStream.showText(product);
+        contentStream.newLineAtOffset(tableWidth * 0.4f, 0);
+        contentStream.showText(quantity);
+        contentStream.endText();
     }
 }
-
-
