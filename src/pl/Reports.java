@@ -15,15 +15,7 @@ import dal.ProductDAO;
 
 public class Reports {
 
-    public static void main(String[] args) {
-        try {
-            createPdfWithTable("Stocks.pdf");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void createPdfWithTable(String filePath) throws IOException {
+    public void createPdfWithTable(String filePath) throws IOException {
         try (PDDocument document = new PDDocument()) {
             PDPage page = new PDPage(PDRectangle.A4);
             document.addPage(page);
