@@ -124,7 +124,7 @@ public class CustomerProductGUI extends JFrame {
 //        SwingUtilities.invokeLater(new Runnable() {
 //            @Override
 //            public void run() {
-//                new CustomerProductGUI().setVisible(true);
+//                new CustomerProductGUI(customerName).setVisible(true);
 //            }
 //        });
 //    }

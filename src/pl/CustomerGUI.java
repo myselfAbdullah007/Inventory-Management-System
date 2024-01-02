@@ -111,13 +111,13 @@ public class CustomerGUI extends JFrame {
 
     private void handleOrderAction() {
         // You can implement the logic for the ORDER button action here
-        new CustomerOrderGUI().setVisible(true);
+        new CustomerOrderGUI(customerName).setVisible(true);
 
     }
 
     private void handleCartAction() {
         // You can implement the logic for the CART button action here
-        new CustomerCartGUI().setVisible(true);
+        new CustomerCartGUI(customerName).setVisible(true);
 
     }
 
@@ -133,12 +133,12 @@ public class CustomerGUI extends JFrame {
         dispose();
     }
 
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(new Runnable() {
-//            @Override
-//            public void run() {
-//                new CustomerGUI().setVisible(true);
-//            }
-//        });
-//    }
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new CustomerGUI("1001").setVisible(true);
+            }
+        });
+    }
 }

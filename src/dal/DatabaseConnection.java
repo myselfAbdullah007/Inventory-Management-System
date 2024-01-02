@@ -9,7 +9,7 @@ import log.Log;
 public class DatabaseConnection {
 
     // JDBC URL, username, and password of MySQL server
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/project db";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/databaseproject";
     private static final String USER = "root";
     private static final String PASSWORD = "";
 

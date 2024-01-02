@@ -78,10 +78,6 @@ public class InventoryManagementSystemGUI extends JFrame {
         });
     }
 
-    private void openAdminModule() {
-        // You can implement the Admin Module logic here
-        JOptionPane.showMessageDialog(this, "Opening Admin Module");
-    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
