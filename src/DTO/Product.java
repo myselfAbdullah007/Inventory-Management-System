@@ -6,12 +6,14 @@ public class Product {
     private String name;
     private String description;
     private String price;
+    private String quantity;
 
-    public Product(String productId, String name, String description, String price) {
+    public Product(String productId, String name, String description, String price, String quantity) {
         this.productId = productId;
         this.name = name;
         this.description = description;
         this.price = price;
+        this.quantity = quantity;
     }
 
 	public String getProductId() {
@@ -20,6 +22,10 @@ public class Product {
 
 	public void setProductId(String productId) {
 		this.productId = productId;
+	}
+	
+	public void setQuantity(String quantity) {
+		this.quantity = quantity;
 	}
 
 	public String getName() {
@@ -40,6 +46,10 @@ public class Product {
 
 	public String getPrice() {
 		return price;
+	}
+	
+	public String getQunatity() {
+		return quantity;
 	}
 
 	public void setPrice(String price) {
