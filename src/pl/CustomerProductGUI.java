@@ -4,6 +4,7 @@ import com.formdev.flatlaf.FlatDarkLaf;
 
 import DTO.Product;
 import dal.ProductDAO;
+import log.Log;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -74,6 +75,7 @@ public class CustomerProductGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Handle Add to Cart button action
+            	Log.LOGGER.info("Product Added to Cart");
                 handleAddToCartAction(productTable);
             }
         });
