@@ -50,7 +50,6 @@ public class CustomerProductGUI extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Create table data and column names
         Vector<String> columnNames = new Vector<>();
         columnNames.add("Product ID");
         columnNames.add("Name");
@@ -120,13 +119,5 @@ public class CustomerProductGUI extends JFrame {
 
         return new DefaultTableModel(data, columnNames);
     }
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(new Runnable() {
-//            @Override
-//            public void run() {
-//                new CustomerProductGUI(customerName).setVisible(true);
-//            }
-//        });
-//    }
 }
 

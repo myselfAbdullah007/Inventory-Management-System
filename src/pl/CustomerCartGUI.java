@@ -143,8 +143,7 @@ public class CustomerCartGUI extends JFrame {
             return;
         }
 
-        // Get data from the selected row
-        String productId = cartTable.getValueAt(selectedRow, 0).toString(); // Assuming ProductID is in the second column
+        String productId = cartTable.getValueAt(selectedRow, 0).toString(); 
 
         // Call the DAO method to delete the product from the cart
         CartDAO.deleteProductFromCart(productId, customerId);
@@ -158,15 +157,6 @@ public class CustomerCartGUI extends JFrame {
     private void removeSelectedRow(int selectedRow) {
         DefaultTableModel model = (DefaultTableModel) cartTable.getModel();
         model.removeRow(selectedRow);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new CustomerCartGUI("1001").setVisible(true);
-            }
-        });
     }
 }
 

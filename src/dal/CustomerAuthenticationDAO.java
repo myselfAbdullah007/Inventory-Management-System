@@ -48,22 +48,4 @@ public class CustomerAuthenticationDAO {
             }
         }
     }
-
-//    // Example usage
-//    public static void main(String[] args) {
-//        CustomerAuthenticationDAO authDAO = new CustomerAuthenticationDAO();
-//        
-//        // Example customer credentials
-//        int customerID = 1003;
-//        String password = "ABC1001";
-//
-//        // Authenticate customer
-//        boolean isAuthenticated = authDAO.authenticateCustomer(customerID, password);
-//
-//        if (isAuthenticated) {
-//            System.out.println("Customer is authenticated.");
-//        } else {
-//            System.out.println("Invalid credentials. Customer not registered.");
-//        }
-//    }
 }

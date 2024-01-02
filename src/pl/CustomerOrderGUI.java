@@ -66,15 +66,4 @@ public class CustomerOrderGUI extends JFrame {
         add(titleLabel, BorderLayout.NORTH);
         add(new JScrollPane(orderTable), BorderLayout.CENTER);
     }
-
-
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new CustomerOrderGUI("1001").setVisible(true);
-            }
-        });
-    }
 }
