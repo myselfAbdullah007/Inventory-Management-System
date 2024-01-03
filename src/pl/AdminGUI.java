@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 public class AdminGUI extends JFrame {
     /**
 	 * 
@@ -21,7 +22,7 @@ public class AdminGUI extends JFrame {
         welcomeLabel = new JLabel("Welcome, Admin!", SwingConstants.CENTER);
         JButton button1 = new JButton("Manage Products");
         JButton button2 = new JButton("View Logs");
-        JButton button3 = new JButton("View Reports");
+        JButton button3 = new JButton("Generate Reports");
         //JButton button4 = new JButton(" ");
 
         // Set layout
@@ -65,17 +66,15 @@ public class AdminGUI extends JFrame {
         button3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Reports reportGUI = new Reports();
-                reportGUI.runn();
+                Reports report = new Reports();
+                try {
+					report.createPdfWithTable("Stock.pdf");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
             }
         });
 
-        // button4.addActionListener(new ActionListener() {
-        //     @Override
-        //     public void actionPerformed(ActionEvent e) {
-        //         showMessage("Products");//Categories
-        //     }
-        // });
     }
 
     @SuppressWarnings("unused")

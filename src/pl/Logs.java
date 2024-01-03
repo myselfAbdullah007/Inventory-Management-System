@@ -43,7 +43,7 @@ public class Logs extends JFrame {
     }
     
     private void loadDataFromTextFile() {
-        try (BufferedReader br = new BufferedReader(new FileReader("logs/applicationlogs"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("logs/applicationlog"))) {
             String line;
             while ((line = br.readLine()) != null) {
             	String[] data = line.split("\\s+", 3);
