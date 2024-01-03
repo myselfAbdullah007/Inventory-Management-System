@@ -3,6 +3,7 @@ package pl;
 import com.formdev.flatlaf.FlatDarkLaf;
 
 import dal.CartDAO;
+import log.Log;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -80,6 +81,7 @@ public class CustomerCartGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Handle Confirm Order button action
+            	Log.LOGGER.info("Invalid Customer Credentials");
                 handleConfirmOrderAction();
             }
         });
@@ -88,6 +90,7 @@ public class CustomerCartGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Handle Delete Order button action
+            	Log.LOGGER.info("User Deleted product from cart");
                 handleDeleteOrderAction();
             }
         });

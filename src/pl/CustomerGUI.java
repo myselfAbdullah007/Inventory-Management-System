@@ -1,6 +1,8 @@
 package pl;
 import com.formdev.flatlaf.FlatDarkLaf;
 
+import log.Log;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -104,6 +106,7 @@ public class CustomerGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Handle LOGOUT button action
+            	Log.LOGGER.info("Customer logged out");
                 handleLogoutAction();
             }
         });
